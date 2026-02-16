@@ -45,47 +45,45 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-# Make sure we are on Debian-based OS
+# Make sure we are on Arch-based OS
 OS=`(lsb_release -sd || grep NAME /etc/*-release) 2> /dev/null`
 print_blue "[~] Detected OS:"
 echo $OS
-if [[ `echo $OS | egrep -i '(kali|debian|ubuntu)'` ]]; then
-    print_green "[+] Debian-based Linux OS detected !"
+if [[ `echo $OS | egrep -i '(arch|blackarch)'` ]]; then
+    print_green "[+] Arch-based Linux OS detected !"
 else
-    print_red "[!] No Debian-based Linux OS detected (Debian/Ubuntu/Kali). Will not be able to continue !"
+    print_red "[!] No Arch-based Linux OS detected (Arch/BlackArch). Will not be able to continue !"
     exit 1
 fi
 echo
 echo
 
 # -----------------------------------------------------------------------------
-# Add Kali repositories if not on Kali (Debian/Ubuntu)
+# Initialize BlackArch repository if not already configured
 
-if [[ ! $(grep "deb http://http.kali.org/kali kali-rolling main" /etc/apt/sources.list) ]]; then 
-    print_blue "[~] Add Kali repository (because missing in /etc/apt/sources.list)"
-    cp /etc/apt/sources.list /etc/apt/sources.list.bak
-    echo "deb http://http.kali.org/kali kali-rolling main non-free contrib" >> /etc/apt/sources.list
+if [[ ! $(grep "\[blackarch\]" /etc/pacman.conf 2>/dev/null) ]]; then
+    print_blue "[~] Add BlackArch repository (not found in /etc/pacman.conf)"
     cd /tmp/
-    wget -k https://http.kali.org/kali/pool/main/k/kali-archive-keyring/kali-archive-keyring_2018.1_all.deb
-    dpkg -i kali-archive-keyring_2018.1_all.deb
-    rm -f kali-archive-keyring_2018.1_all.deb
-    apt-get update
-    apt-get install -y kali-archive-keyring
+    curl -O https://blackarch.org/strap.sh
+    chmod +x strap.sh
+    ./strap.sh
+    rm -f strap.sh
     if [ $? -eq 0 ]; then
-        print_green "[+] Kali repository added with success"
+        print_green "[+] BlackArch repository added with success"
     else
-        print_red "[!] Error occured while adding Kali repository"
+        print_red "[!] Error occured while adding BlackArch repository"
         exit 1
     fi
 else
-    print_blue "[~] Kali repository detected in /etc/apt/sources.list. Updating repositories..."
-    apt-get update
-    if [ $? -eq 0 ]; then
-        print_green "[+] Repositories updated with success"
-    else
-        print_red "[!] Error occured while updating repositories"
-        exit 1
-    fi
+    print_green "[+] BlackArch repository already configured"
+fi
+print_blue "[~] Updating repositories..."
+pacman -Syu --noconfirm
+if [ $? -eq 0 ]; then
+    print_green "[+] Repositories updated with success"
+else
+    print_red "[!] Error occured while updating repositories"
+    exit 1
 fi
 print_delimiter
 
@@ -94,7 +92,7 @@ print_delimiter
 
 if ! [ -x "$(command -v git)" ]; then
     print_blue "[~] Install git ..."
-    apt-get install -y git
+    pacman -S --noconfirm git
     if [ -x "$(command -v git)" ]; then
         print_green "[+] Git installed successfully"
     else
@@ -112,51 +110,41 @@ print_delimiter
 print_blue "[~] Install various required packages (if missing)"
 
 PACKAGES="
-alien
-apt-transport-https
-apt-utils
 automake
 bc
-build-essential
+base-devel
 curl
-dnsutils
+bind-tools
 gawk
 gcc
-gnupg2
-iputils-ping
-libcurl4-openssl-dev
-libffi-dev
-libgmp-dev
-liblzma-dev
-libpq-dev
-libssl-dev
-libwhisker2-perl
-libwww-perl
+gnupg
+iputils
+libffi
+gmp
+xz
+postgresql-libs
+openssl
+perl-libwww
 libxml2
-libxml2-dev
-libxml2-utils
-libxslt1-dev
-locales
-locate
+libxslt
+mlocate
 make
 net-tools
 patch
 postgresql
-postgresql-contrib
-procps
+procps-ng
 smbclient
 sudo
 unixodbc
-unixodbc-dev
 unzip
 wget
-zlib1g-dev
+zlib
 "
 for package in $PACKAGES; do    
-    if [[ ! $(dpkg-query -W -f='${Status}' $package 2>/dev/null | grep "ok installed") ]]; then
+    if [[ ! $(pacman -Q $package 2>/dev/null) ]]; then
         echo
         print_blue "[~] Install ${package} ..."
-        apt-get install -y $package 
+        pacman -S --noconfirm $package 
     fi
 done
 print_delimiter
@@ -166,7 +154,7 @@ print_delimiter
 
 if ! [ -x "$(command -v msfconsole)" ]; then
     print_blue "[~] Install Metasploit ..."
-    apt-get install -y metasploit-framework 
+    pacman -S --noconfirm metasploit 
     if [ -x "$(command -v msfconsole)" ]; then
         print_green "[+] Metasploit installed successfully"
     else
@@ -183,7 +171,7 @@ print_delimiter
 
 if ! [ -x "$(command -v nmap)" ]; then
     print_blue "[~] Install Nmap ..."
-    apt-get install -y nmap 
+    pacman -S --noconfirm nmap 
     if [ -x "$(command -v nmap)" ]; then
         print_green "[+] Nmap installed successfully"
     else
@@ -200,7 +188,7 @@ print_delimiter
 
 if ! [ -x "$(command -v tcpdump)" ]; then
     print_blue "[~] Install tcpdump ..."
-    apt-get install -y tcpdump
+    pacman -S --noconfirm tcpdump
     if [ -x "$(command -v tcpdump)" ]; then
         print_green "[+] tcpdump installed successfully"
     else
@@ -225,54 +213,30 @@ print_delimiter
 
 # -----------------------------------------------------------------------------
 # Install Python and related packages
-print_blue "[~] Install Python 2.7 + 3 and useful related packages (if missing)"
+print_blue "[~] Install Python 3 and useful related packages (if missing)"
 
 PACKAGES="
 python
-python2.7
-python3
 python-pip
-python3-pip
-python-dev
-python3-dev
 python-setuptools
-python3-setuptools
-python3-distutils
-python-ipy
-python-nmap
-python3-pymysql
-python3-psycopg2
-python3-shodan
+python-pymysql
+python-psycopg2
 "
 
 for package in $PACKAGES; do    
-    if [[ ! $(dpkg-query -W -f='${Status}' $package 2>/dev/null | grep "ok installed") ]]; then
+    if [[ ! $(pacman -Q $package 2>/dev/null) ]]; then
         echo
         print_blue "[~] Install ${package} ..."
-        apt-get install -y $package 
+        pacman -S --noconfirm $package 
     fi
 done
 
-pip2 install --upgrade pip
 pip3 install --upgrade pip
-# pip3 uninstall -y psycopg2
-# pip3 install psycopg2-binary
-if [ -x "$(command -v python2.7)" ]; then
-    print_green "[+] Python2.7 installed successfully"
-else
-    print_red "[!] An error occured during Python2.7 install"
-    exit 1
-fi 
+pip3 install shodan
 if [ -x "$(command -v python3)" ]; then
     print_green "[+] Python3 installed successfully"
 else
-    print_red "[!] An error occured during Python2.7 install"
-    exit 1
-fi 
-if [ -x "$(command -v pip2)" ]; then
-    print_green "[+] pip2 installed successfully"
-else
-    print_red "[!] An error occured during pip2 install"
+    print_red "[!] An error occured during Python3 install"
     exit 1
 fi 
 if [ -x "$(command -v pip3)" ]; then
@@ -288,10 +252,7 @@ print_delimiter
 
 if ! [ -x "$(command -v virtualenv)" ]; then
     print_blue "[~] Install python virtual environment packages"
-    pip2 install virtualenv
     pip3 install virtualenv
-    # pip3 install virtualenvwrapper
-    # source /usr/local/bin/virtualenvwrapper.sh
     if [ -x "$(command -v virtualenv)" ]; then
         print_green "[+] virtualenv installed successfully"
     else
@@ -311,84 +272,9 @@ print_delimiter
 # setup.py. Then virtualenv for Python projects are created with 
 # --system-site-package option which allows to access those libraries.
 
-print_blue "[~] Install common Python libraries..."
+print_blue "[~] Install common Python 3 libraries..."
 
-LIBPY2="
-argcomplete
-asn1crypto
-bcrypt
-beautifulsoup4
-bs4
-certifi
-cffi
-chardet
-colorama
-colorlog
-configparser
-cryptography
-cssselect
-dnspython
-entrypoints
-enum34
-Flask
-future
-futures
-gpg
-html-similarity
-html5lib
-humanize
-ipaddress
-IPy
-keyring
-keyrings.alt
-ldap3
-ldapdomaindump
-lxml
-macholib
-MarkupSafe
-maxminddb
-paramiko
-parsel
-passlib
-pluginbase
-proxy-db
-py2-ipaddress
-pyasn1
-pycparser
-pycrypto
-pycryptodomex
-pycurl
-PyGObject
-pymssql
-PyNaCl
-pyOpenSSL
-pystache
-python-nmap
-pyxdg
-requests
-requests-mock
-scapy
-SecretStorage
-six
-termcolor
-urllib3
-virtualenv
-w3lib
-webencodings
-Werkzeug
-"
-
-PIP2FREEZE=$(pip2 freeze)
-for lib in $LIBPY2; do    
-    if [[ ! $(echo $PIP2FREEZE | grep -i $lib) ]]; then
-        echo
-        print_blue "[~] Install Python library ${lib} (py2)"
-        pip2 install $lib
-    fi
-done
-
-LIBPY3="
-aiohttp
+LIBPY3="aiohttp
 ansi2html
 asn1crypto
 async-timeout
@@ -515,7 +401,7 @@ print_delimiter
 
 if ! [ -x "$(command -v jython)" ]; then
     print_blue "[~] Install Jython"
-    apt-get install -y jython
+    pacman -S --noconfirm jython
     if [ -x "$(command -v jython)" ]; then
         print_green "[+] Jython installed successfully"
     else
@@ -532,7 +418,7 @@ print_delimiter
 
 if ! [ -x "$(command -v ruby)" ]; then
     print_blue "[~] Install Ruby"
-    apt-get install -y ruby ruby-dev
+    pacman -S --noconfirm ruby
     if [ -x "$(command -v ruby)" ]; then
         print_green "[+] Ruby installed successfully"
     else
@@ -545,85 +431,41 @@ fi
 print_delimiter
 
 # -----------------------------------------------------------------------------
-# Install RVM (Ruby Version Manager)
+# Install rbenv (Ruby Version Manager)
 
-if [ -a /usr/local/rvm/scripts/rvm ]; then
-    source /usr/local/rvm/scripts/rvm
-fi
-
-if ! [ -n "$(command -v rvm)" ]; then
-    print_blue "[~] Install Ruby RVM (Ruby Version Manager)"
-    curl -sSL https://get.rvm.io | bash
-    source /etc/profile.d/rvm.sh
-    if ! grep -q "source /etc/profile.d/rvm.sh" ~/.bashrc
-    then
-        echo "source /etc/profile.d/rvm.sh" >> ~/.bashrc
-    fi
-    # Make sure rvm will be available
-    if ! grep -q "[[ -s /usr/local/rvm/scripts/rvm ]] && source /usr/local/rvm/scripts/rvm" ~/.bashrc
-    then
-        echo "[[ -s /usr/local/rvm/scripts/rvm ]] && source /usr/local/rvm/scripts/rvm" >> ~/.bashrc
-    fi
-    source ~/.bashrc
-    source /usr/local/rvm/scripts/rvm
-    if [ -n "$(command -v rvm)" ]; then
-        print_green "[+] Ruby RVM installed successfully"
+if ! [ -x "$(command -v rbenv)" ]; then
+    print_blue "[~] Install rbenv and ruby-build"
+    pacman -S --noconfirm rbenv ruby-build
+    echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+    echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+    if [ -n "$(command -v rbenv)" ]; then
+        print_green "[+] rbenv installed successfully"
     else
-        print_red "[!] An error occured during Ruby RVM install"
+        print_red "[!] An error occurred during rbenv install"
         exit 1
-    fi   
+    fi
 else
-    print_green "[+] Ruby RVM is already installed"
+    print_green "[+] rbenv is already installed"
 fi
 print_delimiter
 
 # -----------------------------------------------------------------------------
-# Install different versions of Ruby via RVM
+# Install Ruby 3.2 via rbenv
 
-if [ -a /usr/local/rvm/scripts/rvm ]; then
-    source /usr/local/rvm/scripts/rvm
-fi
-if [[ ! $(rvm list | grep ruby-2.4) ]]; then
-    print_blue "[~] Install Ruby 2.4 (old version)"
-    apt-get install -y ruby-psych
-    apt-get purge -y libssl-dev
-    apt-get install -y libssl1.0-dev
-    rvm install ruby-2.4
-    if [[ ! $(rvm list | grep ruby-2.4) ]]; then
-        print_red "[!] Ruby 2.4 has not been installed correctly with RVM"
-        exit 1
+if [[ ! $(rbenv versions | grep 3.2) ]]; then
+    print_blue "[~] Install Ruby 3.2 via rbenv"
+    rbenv install 3.2.0
+    rbenv global 3.2.0
+    if [[ $(rbenv versions | grep 3.2) ]]; then
+        print_green "[+] Ruby 3.2 has been successfully installed with rbenv"
     else
-        rvm list
-        print_green "[+] Ruby 2.4 has been successfully installed with RVM"
+        print_red "[!] Ruby 3.2 has not been installed correctly with rbenv"
+        exit 1
     fi
 else
-    print_green "[+] Ruby 2.4 is already installed"
-fi
-print_delimiter
-
-# if ! rvm list | grep -q "ruby-2.5"
-# then
-#     print_green "[~] Install Ruby 2.5 (default)"
-#     rvm install ruby-2.5
-#     rvm --default use 2.5
-#     gem install ffi
-#     rvm list
-# fi
-
-if [[ ! $(rvm list | grep ruby-2.6) ]]; then
-    print_blue "[~] Install Ruby 2.6"
-    rvm install ruby-2.6
-    rvm --default use ruby-2.6
-    gem install ffi
-    if [[ ! $(rvm list | grep ruby-2.6) ]]; then
-        print_red "[!] Ruby 2.6 has not been installed correctly with RVM"
-        exit 1
-    else
-        rvm list
-        print_green "[+] Ruby 2.6 has been successfully installed with RVM"
-    fi
-else
-    print_green "[+] Ruby 2.6 is already installed"
+    print_green "[+] Ruby 3.2 is already installed"
 fi
 print_delimiter
 
@@ -638,7 +480,7 @@ print_delimiter
 
 if ! [ -x "$(command -v perl)" ]; then
     print_blue "[~] Install Perl"
-    apt-get install -y perl 
+    pacman -S --noconfirm perl 
     if [ -x "$(command -v perl)" ]; then
         print_green "[+] Perl installed successfully"
     else
@@ -655,7 +497,7 @@ print_delimiter
 
 if ! [ -x "$(command -v php)" ]; then
     print_blue "[~] Install PHP"
-    apt-get install -y php
+    pacman -S --noconfirm php
     if [ -x "$(command -v php)" ]; then
         print_green "[+] PHP installed successfully"
     else
@@ -672,7 +514,7 @@ print_delimiter
 
 if ! [ -x "$(command -v java)" ]; then
     print_blue "[~] Install Java"
-    apt-get install -y default-jdk
+    pacman -S --noconfirm jdk-openjdk
     if [ -x "$(command -v jython)" ]; then
         print_green "[+] Java installed successfully"
     else
@@ -689,7 +531,7 @@ print_delimiter
 
 if ! [ -x "$(command -v firefox)" ]; then
     print_blue "[~] Install Firefox (for HTML reports and web screenshots)"
-    apt-get install -y firefox-esr
+    pacman -S --noconfirm firefox
     if [ -x "$(command -v firefox)" ]; then
         print_green "[+] Firefox installed successfully"
     else
@@ -706,27 +548,7 @@ print_delimiter
 
 if ! [ -x "$(command -v geckodriver)" ]; then
     print_blue "[~] Install Geckodriver (for web screenshots)"
-    cd /tmp/
-    MACHINE_TYPE=`uname -m`
-    if [ ${MACHINE_TYPE} == 'x86_64' ]; then
-        wget https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
-        tar -xvf geckodriver-v0.24.0-linux64.tar.gz
-        rm -f geckodriver-v0.24.0-linux64.tar.gz
-        mv geckodriver /usr/sbin
-        if [ -e /usr/bin/geckodriver ]; then
-            rm /usr/bin/geckodriver
-        fi
-        ln -s /usr/sbin/geckodriver /usr/bin/geckodriver
-    else
-        wget https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux32.tar.gz
-        tar -xvf geckodriver-v0.24.0-linux32.tar.gz
-        rm -f geckodriver-v0.24.0-linux32.tar.gz
-        mv geckodriver /usr/sbin
-        if [ -e /usr/bin/geckodriver ]; then
-            rm /usr/bin/geckodriver
-        fi
-        ln -s /usr/sbin/geckodriver /usr/bin/geckodriver
-    fi
+    pacman -S --noconfirm geckodriver
     if [ -x "$(command -v geckodriver)" ]; then
         print_green "[+] Geckodriver installed successfully"
     else
@@ -755,9 +577,8 @@ print_delimiter
 
 # -----------------------------------------------------------------------------
 
-print_blue "[~] Cleaning apt cache..."
-apt-get clean
-rm -rf /var/lib/apt/lists/*
+print_blue "[~] Cleaning pacman cache..."
+pacman -Scc --noconfirm
 print_delimiter
 
 # -----------------------------------------------------------------------------
