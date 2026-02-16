@@ -204,8 +204,7 @@ print_delimiter
 
 # if ! [ -x "$(command -v npm)" ]; then
 #     print_green "[~] Install NodeJS ..."
-#     curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-#     apt-get install -y nodejs
+#     pacman -S --noconfirm nodejs npm
 # else
 #     print_green "[+] NodeJS is already installed"
 # fi
