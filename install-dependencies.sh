@@ -515,7 +515,7 @@ print_delimiter
 if ! [ -x "$(command -v java)" ]; then
     print_blue "[~] Install Java"
     pacman -S --noconfirm jdk-openjdk
-    if [ -x "$(command -v jython)" ]; then
+    if [ -x "$(command -v java)" ]; then
         print_green "[+] Java installed successfully"
     else
         print_red "[!] An error occured during Java install"
