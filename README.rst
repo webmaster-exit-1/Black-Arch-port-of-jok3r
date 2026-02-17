@@ -14,6 +14,10 @@
     :target: https://www.python.org/downloads/release/python-366/
     :alt: Python 3.6
 
+.. image:: https://github.com/webmaster-exit-1/Black-Arch-port-of-jok3r/actions/workflows/test-tools.yml/badge.svg
+    :target: https://github.com/webmaster-exit-1/Black-Arch-port-of-jok3r/actions/workflows/test-tools.yml
+    :alt: Tools Installation Test
+
 .. image:: https://readthedocs.org/projects/jok3r/badge/?version=latest
    :target: https://jok3r.readthedocs.io/en/latest/
    :alt: Documentation ReadTheDocs
@@ -42,6 +46,13 @@ and bugs might be present.**
 
 **Many tests are going on: see https://github.com/koutto/jok3r/blob/master/tests/TESTS.rst. 
 Ideas, bug reports, contributions are welcome !**
+
+.. important::
+   **Security Scanning Notice**: This is a penetration testing framework that intentionally 
+   uses security-sensitive patterns (subprocess execution, exploit testing, etc.) as core 
+   functionality. Security scanners will flag these as vulnerabilities, but they are 
+   expected false positives. See `SECURITY.md <SECURITY.md>`_ for details on security 
+   considerations and proper usage.
 
 
 .. contents:: 
