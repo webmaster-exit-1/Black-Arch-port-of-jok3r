@@ -365,7 +365,7 @@ class Command:
             --passlist, --weblist). None if not available. 
         """
         pattern = re.compile(
-            '\['+tagname.upper()+'\s+default\s*=\s*[\'"](?P<default>.*?)[\'"]\s*\]',
+            r'\['+tagname.upper()+r'\s+default\s*=\s*[\'"](?P<default>.*?)[\'"]\s*\]',
             re.IGNORECASE)
         m = pattern.search(self.formatted_cmdline)
 
@@ -492,7 +492,7 @@ class Command:
         """
         try:
             pattern = re.compile(
-                r'\['+name.upper()+'\s+true\s*=\s*[\'"](?P<option>.*?)[\'"]\s*\]', 
+                r'\['+name.upper()+r'\s+true\s*=\s*[\'"](?P<option>.*?)[\'"]\s*\]', 
                 re.IGNORECASE)
             m = pattern.search(self.formatted_cmdline)
             if value == True:
@@ -516,7 +516,7 @@ class Command:
         """
         try:
             pattern = regex.compile(
-                r'\['+name.upper()+'(?:\s+(?P<name>\w+)\s*=\s*[\'"]' \
+                r'\['+name.upper()+r'(?:\s+(?P<name>\w+)\s*=\s*[\'"]' \
                 r'(?P<value>[ a-zA-Z0-9_,;:-]*)[\'"])+\s*\]', 
                 regex.IGNORECASE)
             m = pattern.search(self.formatted_cmdline)
@@ -549,7 +549,7 @@ class Command:
         """        
         try:
             pattern = re.compile(
-                r'\['+name.upper()+'\s+set\s*=\s*[\'"](?P<set>.*?)[\'"]\s*' \
+                r'\['+name.upper()+r'\s+set\s*=\s*[\'"](?P<set>.*?)[\'"]\s*' \
                 r'(default\s*=\s*[\'"](?P<default>.*?)[\'"])?\s*\]', 
                 re.IGNORECASE)
             m = pattern.search(self.formatted_cmdline)
@@ -588,16 +588,16 @@ class Command:
             else:
                 vendor = ''
 
-            pattern = re.compile(r'\['+product_type+'-VENDOR\]', re.IGNORECASE)
+            pattern = re.compile(r'\['+product_type+r'-VENDOR\]', re.IGNORECASE)
             self.formatted_cmdline = pattern.sub(vendor, self.formatted_cmdline)
 
-            pattern = re.compile(r'\['+product_type+'-NAME\]', re.IGNORECASE)
+            pattern = re.compile(r'\['+product_type+r'-NAME\]', re.IGNORECASE)
             self.formatted_cmdline = pattern.sub(name, self.formatted_cmdline)
 
-            pattern = re.compile(r'\['+product_type+'-VERSION\]', re.IGNORECASE)
+            pattern = re.compile(r'\['+product_type+r'-VERSION\]', re.IGNORECASE)
             self.formatted_cmdline = pattern.sub(version, self.formatted_cmdline)        
 
-            pattern = re.compile(r'\['+product_type+'-VERSION_MAJOR\]', re.IGNORECASE)
+            pattern = re.compile(r'\['+product_type+r'-VERSION_MAJOR\]', re.IGNORECASE)
             self.formatted_cmdline = pattern.sub(version.split('.')[0], 
                 self.formatted_cmdline)          
  

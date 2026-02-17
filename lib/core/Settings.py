@@ -3,7 +3,7 @@
 ###
 ### Core > Settings 
 ###
-"""
+r"""
 
 toolbox.conf:
 -------------
