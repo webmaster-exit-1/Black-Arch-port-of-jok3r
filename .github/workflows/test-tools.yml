@@ -1,5 +1,10 @@
 name: Test All Tools Installation
 
+# This workflow tests the installation of all Jok3r tools
+# It runs the complete toolbox installation process and verifies each tool
+# Purpose: Ensure all tools can be installed successfully and pass their checks
+# Trigger: On push to main/master/develop, PRs, weekly schedule, or manual dispatch
+
 on:
   push:
     branches: [ main, master, develop ]
