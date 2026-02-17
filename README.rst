@@ -488,6 +488,10 @@ Full Documentation
 ==================
 Documentation writing in progress...
 
+**Additional Documentation:**
+
+* `Metasploit Database Setup <doc/METASPLOIT_DATABASE.md>`_ - Configure PostgreSQL database for Metasploit with default credentials
+
 
 =====================================
 Supported Services & Security Checks 

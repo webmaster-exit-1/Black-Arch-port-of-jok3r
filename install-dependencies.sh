@@ -164,6 +164,21 @@ if ! [ -x "$(command -v msfconsole)" ]; then
 else
     print_green "[+] Metasploit is already installed"
 fi
+
+# Setup Metasploit database
+print_blue "[~] Setting up Metasploit PostgreSQL database..."
+if [ -f "scripts/setup-metasploit-db.sh" ]; then
+    bash scripts/setup-metasploit-db.sh
+    if [ $? -eq 0 ]; then
+        print_green "[+] Metasploit database configured successfully"
+    else
+        print_yellow "[!] Metasploit database setup failed - you may need to run it manually"
+        print_yellow "    Run: bash scripts/setup-metasploit-db.sh"
+    fi
+else
+    print_yellow "[!] Database setup script not found at scripts/setup-metasploit-db.sh"
+    print_yellow "    You may need to configure Metasploit database manually"
+fi
 print_delimiter
 
 # -----------------------------------------------------------------------------
