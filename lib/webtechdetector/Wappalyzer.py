@@ -177,7 +177,7 @@ class Wappalyzer(requests.Session):
                             attrs[attr[0]] = attr[1]
                     else:
                         attrs['string'] = attr
-                        attrs['regex'] = attr.replace('/', '\/')
+                        attrs['regex'] = attr.replace('/', r'\/')
                     parsed[key].append(attrs)
 
         if 'main' in parsed:

@@ -315,8 +315,8 @@ products_match['http']['web-cms'] = {
         'wappalyzer': 'Joomla',
         'cmseek': r'"cms_name":\s*"Joomla"(,[\s\S]*"joomla_version":\s*"[VERSION]")?',
         'wig': [
-            WIG_REGEXP.format('Joomla\!'),
-            WIG_REGEXP2.format('Joomla\!'),
+            WIG_REGEXP.format(r'Joomla\!'),
+            WIG_REGEXP2.format(r'Joomla\!'),
         ],
         'fingerprinter': r'-a joomla[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
         'cmsmap': 'Joomla Version: [VERSION]',
