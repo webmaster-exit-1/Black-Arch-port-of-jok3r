@@ -47,6 +47,13 @@ and bugs might be present.**
 **Many tests are going on: see https://github.com/koutto/jok3r/blob/master/tests/TESTS.rst. 
 Ideas, bug reports, contributions are welcome !**
 
+.. important::
+   **Security Scanning Notice**: This is a penetration testing framework that intentionally 
+   uses security-sensitive patterns (subprocess execution, exploit testing, etc.) as core 
+   functionality. Security scanners will flag these as vulnerabilities, but they are 
+   expected false positives. See `SECURITY.md <SECURITY.md>`_ for details on security 
+   considerations and proper usage.
+
 
 .. contents:: 
     :local:

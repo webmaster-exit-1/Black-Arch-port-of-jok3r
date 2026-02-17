@@ -1,0 +1,33 @@
+name: "CodeQL Config for Jok3r Pentesting Framework"
+
+# This configuration customizes CodeQL analysis for a penetration testing framework
+# Many security patterns that would be vulnerabilities in normal applications are
+# intentional and necessary functionality in a security testing tool.
+
+queries:
+  - uses: security-and-quality
+
+# Paths to exclude from analysis
+paths-ignore:
+  - 'tests/**'
+  - 'doc/**'
+  - 'pictures/**'
+  - 'wordlists/**'
+  - 'webshells/**'
+
+# Query filters to reduce false positives specific to pentesting frameworks
+query-filters:
+  # Suppress subprocess shell injection warnings - required for tool execution
+  - exclude:
+      id: py/command-line-injection
+  - exclude:
+      id: py/shell-command-constructed-from-input
+  # Allow SQL injection patterns - this tool tests for SQL injection
+  - exclude:
+      id: py/sql-injection
+  # Allow code injection patterns - used for exploit development/testing
+  - exclude:
+      id: py/code-injection
+  # Allow unsafe deserialization - tested as part of security assessments
+  - exclude:
+      id: py/unsafe-deserialization

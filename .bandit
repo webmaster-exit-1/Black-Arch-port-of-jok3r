@@ -1,0 +1,37 @@
+# Bandit configuration for Jok3r Penetration Testing Framework
+# 
+# Bandit is a security linter for Python that will flag many patterns
+# in this codebase as vulnerabilities. However, this is a pentesting
+# framework where these patterns are intentional and necessary.
+
+# Skipped tests (security checks that are intentional in this context)
+skips:
+  # B602: subprocess call with shell=True - Required for tool execution
+  - B602
+  # B603: subprocess without shell equals true - We intentionally use shell=True
+  - B603
+  # B607: Starting a process with a partial path - Tools may be in PATH
+  - B607
+  # B608: Possible SQL injection - This tool tests for SQL injection
+  - B608
+  # B609: Wildcard injection - May be used in testing
+  - B609
+  # B201-B210: Flask debug and other web vulns - May be present in test code
+  - B201
+  - B501: request with verify=False - May be needed for testing
+
+# Exclude certain directories from scanning
+exclude_dirs:
+  - /tests
+  - /doc
+  - /pictures
+  - /wordlists
+  - /webshells
+  - /.git
+
+# Set confidence level (LOW, MEDIUM, HIGH)
+# We'll still catch HIGH confidence issues
+confidence_level: MEDIUM
+
+# Severity level (LOW, MEDIUM, HIGH)
+severity_level: MEDIUM
