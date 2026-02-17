@@ -20,11 +20,11 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: archlinux:latest
-    
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      
+
     - name: Initialize BlackArch repository
       run: |
         curl -O https://blackarch.org/strap.sh
@@ -32,25 +32,25 @@ jobs:
         ./strap.sh
         rm -f strap.sh
         pacman -Syu --noconfirm
-      
+
     - name: Install system dependencies
       run: |
         pacman -S --noconfirm python python-pip rbenv ruby-build git which
-        
+
     - name: Initialize rbenv for Ruby tools
       run: |
         echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
         echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-        
+
     - name: Install Python dependencies
       run: |
         pip install --break-system-packages -r requirements.txt
-        
+
     - name: Install additional tools dependencies
       run: |
         # Install common tools that might be needed
         pacman -S --noconfirm base-devel wget curl jq
-      
+
     - name: Install all tools (--install-all)
       id: install_tools
       run: |
@@ -61,7 +61,7 @@ jobs:
         echo "install_exit_code=$INSTALL_EXIT_CODE" >> $GITHUB_OUTPUT
         exit $INSTALL_EXIT_CODE
       continue-on-error: true
-      
+
     - name: Check installed tools (--check)
       id: check_tools
       run: |
@@ -72,51 +72,51 @@ jobs:
         echo "check_exit_code=$CHECK_EXIT_CODE" >> $GITHUB_OUTPUT
         exit $CHECK_EXIT_CODE
       continue-on-error: true
-      
+
     - name: Display toolbox content (--show-all)
       run: |
         echo "::group::Toolbox Content"
         python3 jok3r.py toolbox --show-all || echo "Show-all completed with warnings"
         echo "::endgroup::"
       continue-on-error: true
-      
+
     - name: Generate installation summary
       if: always()
       run: |
         echo "## Toolbox Installation Summary" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        
+
         if [ "${{ steps.install_tools.outputs.install_exit_code }}" = "0" ]; then
           echo "✅ **Tool Installation**: SUCCESS" >> $GITHUB_STEP_SUMMARY
         else
           echo "❌ **Tool Installation**: FAILED (Exit Code: ${{ steps.install_tools.outputs.install_exit_code }})" >> $GITHUB_STEP_SUMMARY
         fi
-        
+
         if [ "${{ steps.check_tools.outputs.check_exit_code }}" = "0" ]; then
           echo "✅ **Tool Check**: SUCCESS" >> $GITHUB_STEP_SUMMARY
         else
           echo "⚠️ **Tool Check**: FAILED (Exit Code: ${{ steps.check_tools.outputs.check_exit_code }})" >> $GITHUB_STEP_SUMMARY
         fi
-        
+
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "### Details" >> $GITHUB_STEP_SUMMARY
         echo "- Installation command: \`python3 jok3r.py toolbox --install-all --auto\`" >> $GITHUB_STEP_SUMMARY
         echo "- Check command: \`python3 jok3r.py toolbox --check\`" >> $GITHUB_STEP_SUMMARY
         echo "- View details in the job logs above" >> $GITHUB_STEP_SUMMARY
-        
+
     - name: Final status check
       if: always()
       run: |
         INSTALL_CODE="${{ steps.install_tools.outputs.install_exit_code }}"
         CHECK_CODE="${{ steps.check_tools.outputs.check_exit_code }}"
-        
+
         echo "Installation exit code: $INSTALL_CODE"
         echo "Check exit code: $CHECK_CODE"
-        
+
         # Fail the workflow if installation or check failed
         if [ "$INSTALL_CODE" != "0" ] || [ "$CHECK_CODE" != "0" ]; then
           echo "❌ Workflow failed: One or more tools failed to install or pass checks"
           exit 1
         fi
-        
+
         echo "✅ All tools installed and checked successfully!"
