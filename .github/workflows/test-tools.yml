@@ -18,6 +18,8 @@ on:
 jobs:
   test-toolbox:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read  # Only read access needed for checkout
     container:
       image: archlinux:latest
 
