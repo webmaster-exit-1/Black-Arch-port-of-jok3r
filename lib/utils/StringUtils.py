@@ -65,7 +65,7 @@ class StringUtils:
         """
         printable = set(
             """0123456789abcdefghijklmnopqrstuvwxyzäâàçéèêëïîìöôòüûù""" \
-            """ABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ """)
+            r"""ABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ """)
         return ''.join(filter(lambda x: x in printable, string))
 
 
@@ -128,9 +128,9 @@ class StringUtils:
             and after)
         :rtype: list(str)
         """
-        before = '((\S+)\s+){0,'+str(nb_words)+'}'
-        after = '(\s+(\S+)){0,'+str(nb_words)+'}'
-        pattern = '\S*(?P<search>{})\S*'.format(pattern.replace('%', '.*?'))
+        before = r'((\S+)\s+){0,'+str(nb_words)+'}'
+        after = r'(\s+(\S+)){0,'+str(nb_words)+'}'
+        pattern = r'\S*(?P<search>{})\S*'.format(pattern.replace('%', '.*?'))
         m = re.finditer('{before}{pattern}{after}'.format(
             before=before,
             pattern=pattern,

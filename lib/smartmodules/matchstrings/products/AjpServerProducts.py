@@ -4,7 +4,7 @@ from lib.smartmodules.matchstrings.MatchStrings import products_match
 
 products_match['ajp']['ajp-server'] = {
     'Apache/Jserv': {
-        'banner': 'Apache Jserv(\s+[VERSION])?',
+        'banner': r'Apache Jserv(\s+[VERSION])?',
     },
     'Apache/Tomcat': {
         'ajpy': 'Apache Tomcat/[VERSION]',

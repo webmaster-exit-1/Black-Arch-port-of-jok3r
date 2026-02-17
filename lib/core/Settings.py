@@ -283,7 +283,7 @@ class Settings:
 
                 # For Python, format must be "python<version>"
                 if tool_config[opt].startswith('python'):
-                    m = re.match('python(?P<version>[0-9](\.[0-9])*)', tool_config[opt])
+                    m = re.match(r'python(?P<version>[0-9](\.[0-9])*)', tool_config[opt])
                     if not m:
                         logger.warning('{prefix} Invalid Python virtualenv, must be: ' \
                             'virtualenv = python<version>. Tool is skipped'.format(
@@ -293,8 +293,8 @@ class Settings:
                 # For Ruby, make sure to have a format like "ruby-<version>"
                 # Format "ruby<version>" is accepted and turned into "ruby-<version>"
                 if tool_config[opt].startswith('ruby'):
-                    m1 = re.match('ruby(?P<version>[0-9](\.[0-9])*)', tool_config[opt])
-                    m2 = re.match('ruby-(?P<version>[0-9](\.[0-9])*)', tool_config[opt])
+                    m1 = re.match(r'ruby(?P<version>[0-9](\.[0-9])*)', tool_config[opt])
+                    m2 = re.match(r'ruby-(?P<version>[0-9](\.[0-9])*)', tool_config[opt])
                     if m1:
                         tool_config[opt] = 'ruby-{version}'.format(
                             version=m.group('version'))

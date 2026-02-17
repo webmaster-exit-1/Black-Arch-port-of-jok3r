@@ -6,7 +6,7 @@ from lib.smartmodules.matchstrings.MatchStrings import creds_match
 creds_match['telnet'] = {
 
     'hydra': {
-        '\[telnet(s)?\] host: \S+\s+login:\s+(?P<m1>\S+)\s+password: (?P<m2>\S*)': {
+        r'\[telnet(s)?\] host: \S+\s+login:\s+(?P<m1>\S+)\s+password: (?P<m2>\S*)': {
             'user': '$1',
             'pass': '$2',
         },

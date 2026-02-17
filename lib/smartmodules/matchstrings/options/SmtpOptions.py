@@ -12,7 +12,7 @@ options_match['smtp'] = {
         },
     },
     'banner': {
-        'smtps(\s|\.)': {
+        r'smtps(\s|\.)': {
             'name': 'smtps',
             'value': 'true',
         },

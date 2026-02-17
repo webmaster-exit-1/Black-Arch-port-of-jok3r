@@ -10,12 +10,12 @@ VERSION_REGEXP = '(?P<version>[0-9.]*[0-9])?'
 # Sample:
 # creds_match['http'] = {
 #     'tool-name': {
-#         'found creds: (?P<m1>\S*):(?P<m2>\S*)': {
+#         r'found creds: (?P<m1>\S*):(?P<m2>\S*)': {
 #             'user': '$1',
 #             'pass': '$2',
 #             'type': 'wordpress'
 #         },
-#         'found user: (?P<m1>\S*)': {
+#         r'found user: (?P<m1>\S*)': {
 #             'user': '$1'
 #         }
 #     }
@@ -43,7 +43,7 @@ from lib.smartmodules.matchstrings.creds.VncCreds import *
 # Sample:
 # options_match['http'] = {
 #   'tool-name': {
-#       'match string (?P<m1>\S+) lorem ispum': {
+#       r'match string (?P<m1>\S+) lorem ispum': {
 #           'name': 'option-name',
 #           'value': 'option-value-$1'
 #       }
@@ -76,7 +76,7 @@ from lib.smartmodules.matchstrings.options.TelnetOptions import *
 #     'Apache/Tomcat' : {
 #         'clusterd': [
 #             'Matched [0-9]+ fingerprints for service tomcat',
-#             'Tomcat (Manager|Admin)? \(version [VERSION]',
+#             r'Tomcat (Manager|Admin)? \(version [VERSION]',
 #          ],
 #      }
 
@@ -106,7 +106,7 @@ from lib.smartmodules.matchstrings.products.SshServerProducts import *
 # Sample:
 # vulns_match['http'] = {
 #     'tool-name': {
-#         'match string (?P<m1>\S+) lorem ispum': 'MS17-010: $1',
+#         r'match string (?P<m1>\S+) lorem ispum': 'MS17-010: $1',
 #     }
 # } 
 

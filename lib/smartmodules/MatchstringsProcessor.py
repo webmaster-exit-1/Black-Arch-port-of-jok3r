@@ -36,7 +36,7 @@ class MatchstringsProcessor:
     #------------------------------------------------------------------------------------
 
     def detect_credentials(self):
-        """
+        r"""
         Detect usernames/credentials from command output
         Important: A command output might contain several usernames/passwords with the
         same pattern.
@@ -51,15 +51,15 @@ class MatchstringsProcessor:
         ... lorem ipsum
         ... lorem ipsum"
         >>> import regex
-        >>> m = regex.search('Pre[\s\S]*?Found credentials:(\s*(?P<m1>\S+):(?P<m2>\S+)\s*\n)+', text)
+        >>> m = regex.search(r'Pre[\s\S]*?Found credentials:(\s*(?P<m1>\S+):(?P<m2>\S+)\s*\n)+', text)
         >>> matchs = m.capturesdict()
         >>> matchs
         {'m1': ['admin', 'toto'], 'm2': ['pass', 'pwd']}
 
-        >>> m = regex.search('(\[v\] Trying Credentials:\s*(?P<user>\S+)\s*(?P<password>\S+)\s*\n)+', text)
+        >>> m = regex.search(r'(\[v\] Trying Credentials:\s*(?P<user>\S+)\s*(?P<password>\S+)\s*\n)+', text)
         >>> m.capturesdict()
         {'user': ['Miniwick', 'Miniwick', 'Miniwick', 'Miniwick', 'Miniwick'], 'password': ['password', 'admin', '123456', 'Password1', 'Miniwick']}
-        >>> m = regex.search('WordPress[\s\S]*?(\[v\] Trying Credentials:\s*(?P<user>\S+)\s*(?P<password>\S+)\s*\n)+', text)
+        >>> m = regex.search(r'WordPress[\s\S]*?(\[v\] Trying Credentials:\s*(?P<user>\S+)\s*(?P<password>\S+)\s*\n)+', text)
         >>> m.capturesdict()
         {'user': ['Miniwick', 'Miniwick', 'Miniwick', 'Miniwick', 'Miniwick'], 'password': ['password', 'admin', '123456', 'Password1', 'Miniwick']}
 
