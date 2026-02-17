@@ -218,7 +218,7 @@ class Command:
 
         :param str ip: Target IP address
         """
-        pattern = re.compile('\[IP\]', re.IGNORECASE)
+        pattern = re.compile(r'\[IP\]', re.IGNORECASE)
         self.formatted_cmdline = pattern.sub(ip, self.formatted_cmdline)
 
 
@@ -229,7 +229,7 @@ class Command:
         :param str url: Target URL
         """
         if not url: return
-        pattern = re.compile('\[URL\]', re.IGNORECASE)
+        pattern = re.compile(r'\[URL\]', re.IGNORECASE)
         self.formatted_cmdline = pattern.sub(url, self.formatted_cmdline)
 
     def __replace_tag_domain(self, url):
@@ -239,7 +239,7 @@ class Command:
         :param str url: Target URL
         """
         if not url: return
-        pattern = re.compile('\[DOMAIN\]', re.IGNORECASE)
+        pattern = re.compile(r'\[DOMAIN\]', re.IGNORECASE)
         try:
             res = get_tld(url, as_object=True)
             domain = res.fld
@@ -254,7 +254,7 @@ class Command:
         :param str url: Target URL
         """
         if not url: return
-        pattern = re.compile('\[URIPATH\]', re.IGNORECASE)
+        pattern = re.compile(r'\[URIPATH\]', re.IGNORECASE)
         try:
             o = urllib.parse.urlparse(url)
             uripath = o.path or '/'
@@ -272,7 +272,7 @@ class Command:
         :param str host: Target hostname
         :param str ip: Target IP address
         """
-        pattern = re.compile('\[HOST\]', re.IGNORECASE)
+        pattern = re.compile(r'\[HOST\]', re.IGNORECASE)
         if host:
             self.formatted_cmdline = pattern.sub(host, self.formatted_cmdline)
         else:
@@ -285,7 +285,7 @@ class Command:
 
         :param int port: Target port number
         """
-        pattern = re.compile('\[PORT\]', re.IGNORECASE)
+        pattern = re.compile(r'\[PORT\]', re.IGNORECASE)
         self.formatted_cmdline = pattern.sub(str(port), self.formatted_cmdline)
 
 
@@ -295,7 +295,7 @@ class Command:
 
         :param str protocol: Target protocol (tcp or udp)
         """
-        pattern = re.compile('\[PROTOCOL\]', re.IGNORECASE)
+        pattern = re.compile(r'\[PROTOCOL\]', re.IGNORECASE)
         self.formatted_cmdline = pattern.sub(protocol, self.formatted_cmdline)
 
 
@@ -305,7 +305,7 @@ class Command:
 
         :param str service: Target service name
         """
-        pattern = re.compile('\[SERVICE\]', re.IGNORECASE)
+        pattern = re.compile(r'\[SERVICE\]', re.IGNORECASE)
         self.formatted_cmdline = pattern.sub(service, self.formatted_cmdline)     
 
 
@@ -315,7 +315,7 @@ class Command:
 
         :param str toolbox_dir: Toolbox directory
         """
-        pattern = re.compile('\[TOOLBOXDIR\]', re.IGNORECASE)
+        pattern = re.compile(r'\[TOOLBOXDIR\]', re.IGNORECASE)
         self.formatted_cmdline = pattern.sub(toolbox_dir, self.formatted_cmdline)
 
 
@@ -325,7 +325,7 @@ class Command:
 
         :param str webshells_dir: Webshells directory
         """
-        pattern = re.compile('\[WEBSHELLSDIR\]', re.IGNORECASE)
+        pattern = re.compile(r'\[WEBSHELLSDIR\]', re.IGNORECASE)
         self.formatted_cmdline = pattern.sub(webshells_dir, self.formatted_cmdline)
 
 
@@ -335,7 +335,7 @@ class Command:
 
         :param str wordlists_dir: Wordlists directory
         """
-        pattern = re.compile('\[WORDLISTSDIR\]', re.IGNORECASE)
+        pattern = re.compile(r'\[WORDLISTSDIR\]', re.IGNORECASE)
         self.formatted_cmdline = pattern.sub(wordlists_dir, self.formatted_cmdline)
 
 
@@ -343,7 +343,7 @@ class Command:
         """
         Replace tag [LOCALIP] by the local IP address in self.formatted_cmdline.
         """
-        pattern = re.compile('\[LOCALIP\]', re.IGNORECASE)
+        pattern = re.compile(r'\[LOCALIP\]', re.IGNORECASE)
         self.formatted_cmdline = pattern.sub(NetUtils.get_local_ip_address(), 
                                              self.formatted_cmdline)
          
@@ -439,7 +439,7 @@ class Command:
         :return: Formatted command line
         :rtype: str
         """
-        pattern = re.compile('\[USERNAME\]', re.IGNORECASE)
+        pattern = re.compile(r'\[USERNAME\]', re.IGNORECASE)
         return pattern.sub(username, cmd)
 
 
@@ -452,7 +452,7 @@ class Command:
         :return: Formatted command line
         :rtype: str
         """
-        pattern = re.compile('\[PASSWORD\]', re.IGNORECASE)
+        pattern = re.compile(r'\[PASSWORD\]', re.IGNORECASE)
         return pattern.sub(password, cmd)
 
 
@@ -588,16 +588,16 @@ class Command:
             else:
                 vendor = ''
 
-            pattern = re.compile('\['+product_type+'-VENDOR\]', re.IGNORECASE)
+            pattern = re.compile(r'\['+product_type+'-VENDOR\]', re.IGNORECASE)
             self.formatted_cmdline = pattern.sub(vendor, self.formatted_cmdline)
 
-            pattern = re.compile('\['+product_type+'-NAME\]', re.IGNORECASE)
+            pattern = re.compile(r'\['+product_type+'-NAME\]', re.IGNORECASE)
             self.formatted_cmdline = pattern.sub(name, self.formatted_cmdline)
 
-            pattern = re.compile('\['+product_type+'-VERSION\]', re.IGNORECASE)
+            pattern = re.compile(r'\['+product_type+'-VERSION\]', re.IGNORECASE)
             self.formatted_cmdline = pattern.sub(version, self.formatted_cmdline)        
 
-            pattern = re.compile('\['+product_type+'-VERSION_MAJOR\]', re.IGNORECASE)
+            pattern = re.compile(r'\['+product_type+'-VERSION_MAJOR\]', re.IGNORECASE)
             self.formatted_cmdline = pattern.sub(version.split('.')[0], 
                 self.formatted_cmdline)          
  
