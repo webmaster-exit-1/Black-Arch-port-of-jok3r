@@ -31,10 +31,11 @@
    <h3 align="center">Network & Web Pentest Automation Framework</h3>
    <p align="center"><a href="https://www.jok3r-framework.com/">www.jok3r-framework.com</a></p>
 
-**NOTE: This is an Arch Linux/BlackArch port of Jok3r. The original project was based on 
-Kali Linux/Debian. This fork has been migrated to use Arch Linux/BlackArch as the base 
-distribution, with tools updated from Python 2.7 to Python 3, and RVM replaced with rbenv 
-for Ruby version management.**
+.. note::
+   **Arch Linux/BlackArch Port**: This is a port of Jok3r for Arch Linux/BlackArch. The original 
+   project was based on Kali Linux/Debian. This fork has been migrated to use Arch Linux/BlackArch 
+   as the base distribution, with tools updated from Python 2.7 to Python 3, and RVM replaced with 
+   rbenv for Ruby version management.
 
 **WARNING: Project is still in version 3 BETA. It is still under active development 
 and bugs might be present.**
