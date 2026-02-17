@@ -245,6 +245,9 @@ Pentest Toolbox management
     python3 jok3r.py toolbox --update-all --auto
 
 
+**Note**: All tool installations and updates are logged to ``settings/_install.log`` for debugging and tracking purposes.
+
+
 Information
 -----------
 
