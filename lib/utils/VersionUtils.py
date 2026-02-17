@@ -86,16 +86,21 @@ class VersionUtils:
             Change of major version number is always taken into account:
             - old: 1.0.0 -> new: 4.2 = True
         """
-        old = parse_version(old_version)
-        new = parse_version(new_version)
-        if len(str(new)) == 0:
+        # Check for empty version strings before parsing
+        if not new_version or len(new_version.strip()) == 0:
             return False
-        if len(str(old)) == 0:
+        if not old_version or len(old_version.strip()) == 0:
             return False
         
         try:
-            old_major = int(str(old)[0])
-            new_major = int(str(new)[0])
+            old = parse_version(old_version)
+            new = parse_version(new_version)
+        except:
+            return False
+        
+        try:
+            old_major = int(str(old).split('.')[0])
+            new_major = int(str(new).split('.')[0])
         except:
             return False
 
