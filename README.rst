@@ -31,6 +31,12 @@
    <h3 align="center">Network & Web Pentest Automation Framework</h3>
    <p align="center"><a href="https://www.jok3r-framework.com/">www.jok3r-framework.com</a></p>
 
+.. note::
+   **Arch Linux/BlackArch Port**: This is a port of Jok3r for Arch Linux/BlackArch. The original 
+   project was based on Kali Linux/Debian. This fork has been migrated to use Arch Linux/BlackArch 
+   as the base distribution, with tools updated from Python 2.7 to Python 3, and RVM replaced with 
+   rbenv for Ruby version management.
+
 **WARNING: Project is still in version 3 BETA. It is still under active development 
 and bugs might be present.**
 
@@ -65,7 +71,7 @@ Features
 Pentest Toolbox management
 --------------------------
 * **Selection of Tools**: Compilation of 50+ open-source tools & scripts, from various sources.
-* **Docker-based**: Application packaged in a Docker image running Kali OS, available on Docker Hub.
+* **Docker-based**: Application packaged in a Docker image running Arch Linux/BlackArch, available on Docker Hub.
 * **Ready-to-use**: All tools and dependencies installed, just pull the Docker image and run a fresh container.
 * **Updates made easy**: Easily keep the whole toolbox up-to-date by running only one command.
 * **Easy Customization**: Easily add/remove tools from a simple configuration file.
@@ -136,8 +142,8 @@ Everything is tested from the Docker container available on Docker Hub !**
 .. image:: https://raw.githubusercontent.com/koutto/jok3r/master/pictures/docker-logo.png
 
 A Docker image is available on Docker Hub and automatically re-built at each update: 
-https://hub.docker.com/r/koutto/jok3r/. It is initially based on official Kali
-Linux Docker image (kalilinux/kali-linux-docker).
+https://hub.docker.com/r/koutto/jok3r/. This fork is based on Arch Linux/BlackArch 
+instead of the original Kali Linux base.
 
 .. image:: https://images.microbadger.com/badges/image/koutto/jok3r.svg
    :target: https://microbadger.com/images/koutto/jok3r
