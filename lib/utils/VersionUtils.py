@@ -4,7 +4,7 @@
 ### Utils > VersionUtils
 ###
 import re
-from distutils.version import LooseVersion
+from packaging.version import Version
 
 
 class VersionUtils:
@@ -60,17 +60,17 @@ class VersionUtils:
             pattern = requirement.replace('.', '[.]').replace('*', '.*')
             return re.match(pattern, version_number) is not None
         elif requirement.startswith('<='):
-            return LooseVersion(version_number) <= LooseVersion(requirement[2:].strip())
+            return Version(version_number) <= Version(requirement[2:].strip())
         elif requirement.startswith('>='):
-            return LooseVersion(version_number) >= LooseVersion(requirement[2:].strip())
+            return Version(version_number) >= Version(requirement[2:].strip())
         elif requirement.startswith('<'):
-            return LooseVersion(version_number) < LooseVersion(requirement[1:].strip())
+            return Version(version_number) < Version(requirement[1:].strip())
         elif requirement.startswith('>'):
-            return LooseVersion(version_number) > LooseVersion(requirement[1:].strip())
+            return Version(version_number) > Version(requirement[1:].strip())
         else:
             print(version_number)
             print(requirement)
-            return LooseVersion(version_number) == LooseVersion(requirement)
+            return Version(version_number) == Version(requirement)
 
 
     @staticmethod
@@ -86,8 +86,8 @@ class VersionUtils:
             Change of major version number is always taken into account:
             - old: 1.0.0 -> new: 4.2 = True
         """
-        old = LooseVersion(old_version)
-        new = LooseVersion(new_version)
+        old = Version(old_version)
+        new = Version(new_version)
         if len(str(new)) == 0:
             return False
         if len(str(old)) == 0:
