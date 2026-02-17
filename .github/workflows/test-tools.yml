@@ -41,12 +41,10 @@ jobs:
       run: |
         pip install --break-system-packages -r requirements.txt
         
-    - name: Run dependency installation script
+    - name: Install additional tools dependencies
       run: |
-        # Run install-dependencies.sh but skip the root check and OS check
-        # by sourcing only the necessary parts
-        bash ./install-dependencies.sh || echo "Dependencies script completed with warnings"
-      continue-on-error: true
+        # Install common tools that might be needed
+        pacman -S --noconfirm base-devel wget curl jq
       
     - name: Install all tools (--install-all)
       id: install_tools
