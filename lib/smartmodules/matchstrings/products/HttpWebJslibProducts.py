@@ -3,8 +3,8 @@
 from lib.smartmodules.matchstrings.MatchStrings import products_match
 
 
-WIG_REGEXP = '{}\s*[VERSION]\s*JavaScript' 
-WIG_REGEXP2 = '- Found JavaScript: {}(\s*[VERSION])?'
+WIG_REGEXP = r'{}\s*[VERSION]\s*JavaScript' 
+WIG_REGEXP2 = r'- Found JavaScript: {}(\s*[VERSION])?'
 
 
 products_match['http']['web-jslib'] = {
@@ -17,7 +17,7 @@ products_match['http']['web-jslib'] = {
             WIG_REGEXP.format('AngularJS'),
             WIG_REGEXP2.format('AngularJS'),
         ],
-        'angularjs-csti-scanner': '\[INFO\] Found AngularJS version [VERSION]',
+        'angularjs-csti-scanner': r'\[INFO\] Found AngularJS version [VERSION]',
     },
     'Backbone.js': {
         'wappalyzer': 'Backbone.js',

@@ -16,7 +16,7 @@ from lib.smartmodules.matchstrings.MatchStrings import products_match
 
 products_match['mssql']['mssql-server'] = {
     'Microsoft/SQL Server': {
-        'banner': 'Microsoft SQL Server(\s+[VERSION])?',
+        'banner': r'Microsoft SQL Server(\s+[VERSION])?',
 
         # Msdat mssqlinfo output example:
         # [+] SQL Server Browser is enabled on the server x.x.x.x:1434:
@@ -27,7 +27,7 @@ products_match['mssql']['mssql-server'] = {
         # -> Version: 10.50.1600.1
         # -> InstanceName: MSSQLSERVER
         
-        #'msdat': 'Version:\s*[VERSION]',
+        #'msdat': r'Version:\s*[VERSION]',
         'msdat': 'ProductName: SQL Server [VERSION]'
     },
 }

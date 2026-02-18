@@ -12,7 +12,7 @@ options_match['ftp'] = {
         },
     },
     'nmap': {
-        'ftps(\s|\.)': {
+        r'ftps(\s|\.)': {
             'name': 'ftps',
             'value': 'true',
         },

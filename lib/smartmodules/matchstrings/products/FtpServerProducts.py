@@ -7,22 +7,22 @@ from lib.smartmodules.matchstrings.MatchStrings import products_match
 products_match['ftp']['ftp-server'] = {
 
     'Microsoft/ftpd': {
-        'banner': 'Microsoft ftpd(\s+[VERSION])?',
+        'banner': r'Microsoft ftpd(\s+[VERSION])?',
     },
     'GNU/Inetutils': {
-        'banner': 'GNU Inetutils FTPd(\s+[VERSION])?',
+        'banner': r'GNU Inetutils FTPd(\s+[VERSION])?',
     },
     'Proftpd': {
-        'banner': 'ProFTPD(\s+[VERSION])?',
+        'banner': r'ProFTPD(\s+[VERSION])?',
     },
     'Pureftpd': {
-        'banner': 'Pure-FTPd(\s+[VERSION])?',
+        'banner': r'Pure-FTPd(\s+[VERSION])?',
     },
     'Serv-u': {
-        'banner': 'Serv-U ftpd(\s+[VERSION])?',
+        'banner': r'Serv-U ftpd(\s+[VERSION])?',
     },
     'Vsftpd': {
-        'banner': 'vsftpd(\s+[VERSION])?',
+        'banner': r'vsftpd(\s+[VERSION])?',
     },
 
 

@@ -54,6 +54,12 @@ Ideas, bug reports, contributions are welcome !**
    expected false positives. See `SECURITY.md <SECURITY.md>`_ for details on security 
    considerations and proper usage.
 
+.. note::
+   **Tools Status (Python 3.14)**: See `TOOLS_STATUS.md <TOOLS_STATUS.md>`_ for a comprehensive 
+   list of working vs disabled tools. 72% of tools are working. Some tools have been disabled 
+   due to Python 3.14 incompatibilities or replaced with modern alternatives (feroxbuster, 
+   ffuf, netexec).
+
 
 .. contents:: 
     :local:
@@ -81,11 +87,12 @@ Features
 
 Pentest Toolbox management
 --------------------------
-* **Selection of Tools**: Compilation of 50+ open-source tools & scripts, from various sources.
+* **Selection of Tools**: Compilation of 70+ working open-source tools & scripts (see `TOOLS_STATUS.md <TOOLS_STATUS.md>`_).
 * **Docker-based**: Application packaged in a Docker image running Arch Linux/BlackArch, available on Docker Hub.
 * **Ready-to-use**: All tools and dependencies installed, just pull the Docker image and run a fresh container.
 * **Updates made easy**: Easily keep the whole toolbox up-to-date by running only one command.
 * **Easy Customization**: Easily add/remove tools from a simple configuration file.
+* **Install Logging**: All tool installations are logged to ``settings/_install.log`` for debugging.
 
 Network Infrastructure Security Assessment
 ------------------------------------------
@@ -243,6 +250,9 @@ Pentest Toolbox management
 .. code-block:: console
 
     python3 jok3r.py toolbox --update-all --auto
+
+
+**Note**: All tool installations and updates are logged to ``settings/_install.log`` for debugging and tracking purposes.
 
 
 Information
@@ -484,6 +494,10 @@ You begin a pentest with several servers in the scope. Here is a typical example
 Full Documentation
 ==================
 Documentation writing in progress...
+
+**Additional Documentation:**
+
+* `Metasploit Database Setup <doc/METASPLOIT_DATABASE.md>`_ - Configure PostgreSQL database for Metasploit with default credentials
 
 
 =====================================

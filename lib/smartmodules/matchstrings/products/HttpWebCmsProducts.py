@@ -8,8 +8,8 @@ from lib.smartmodules.matchstrings.MatchStrings import products_match
 
 
 
-#CMSEEK_REGEXP = 'CMS: {}([\s\S]*Version:\s*[VERSION])?'
-CMSEEK_REGEXP = '"cms_name":\s*"{}"(,[\s\S]*"cms_version":\s*"[VERSION]")?'
+#CMSEEK_REGEXP = r'CMS: {}([\s\S]*Version:\s*[VERSION])?'
+CMSEEK_REGEXP = r'"cms_name":\s*"{}r"(,[\s\S]*"cms_version":\s*"[VERSION]")?'
 
 # Wig output sample:
 # Error page detection ...
@@ -29,10 +29,10 @@ CMSEEK_REGEXP = '"cms_name":\s*"{}"(,[\s\S]*"cms_version":\s*"[VERSION]")?'
 # - Found version: WordPress 4.1.3
 # - Found version: WordPress 4.1.2
 # - Found version: WordPress 4.1.1
-WIG_REGEXP = '{}\s*[VERSION]\s*CMS' 
-WIG_REGEXP2 = '- Found CMS match: {}\s*(Determining CMS version \.\.\.(\s*- Found version: (\S+)\s+[VERSION])?)?'
-WIG_REGEXP3 = '{}\s*[VERSION]\s*Platform' 
-WIG_REGEXP4 = '- Found platform {}(\s*[VERSION])?'
+WIG_REGEXP = r'{}\s*[VERSION]\s*CMS' 
+WIG_REGEXP2 = r'- Found CMS match: {}\s*(Determining CMS version \.\.\.(\s*- Found version: (\S+)\s+[VERSION])?)?'
+WIG_REGEXP3 = r'{}\s*[VERSION]\s*Platform' 
+WIG_REGEXP4 = r'- Found platform {}(\s*[VERSION])?'
 
 products_match['http']['web-cms'] = {
     '3dcart': {
@@ -156,7 +156,7 @@ products_match['http']['web-cms'] = {
     'Cms Made Simple': {
         'wappalyzer': 'CMS Made Simple',
         'cmseek': CMSEEK_REGEXP.format('CMS Made Simple'),
-        'fingerprinter': '-a cms-made-simple[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
+        'fingerprinter': r'-a cms-made-simple[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
     },
     'Cmsimple': {
         'wappalyzer': 'CMSimple',
@@ -169,7 +169,7 @@ products_match['http']['web-cms'] = {
             WIG_REGEXP.format('concrete5'),
             WIG_REGEXP2.format('concrete5'),
         ],
-        'fingerprinter': '-a concrete5[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
+        'fingerprinter': r'-a concrete5[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
     },
     'Dedecms': {
         'wappalyzer': 'DedeCMS',
@@ -181,11 +181,11 @@ products_match['http']['web-cms'] = {
     },
     'Discuz': {
         'wappalyzer': 'Discuz! X',
-        'cmseek': CMSEEK_REGEXP.format('Discuz\!'),
+        'cmseek': CMSEEK_REGEXP.format(r'Discuz\!'),
     },
     'Django Cms': {
         'wappalyzer': 'Django CMS',
-        'fingerprinter': '-a django-cms[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
+        'fingerprinter': r'-a django-cms[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
     },
     'Dokuwiki': {
         'wappalyzer': 'DokuWiki',
@@ -204,19 +204,19 @@ products_match['http']['web-cms'] = {
         'wappalyzer': 'DNN',
         'cmseek': CMSEEK_REGEXP.format('DNN Platform'),
         'wig': [
-            WIG_REGEXP.format('DNN \(DotNetNuke\)'),
-            WIG_REGEXP2.format('DNN \(DotNetNuke\)'),
+            WIG_REGEXP.format(r'DNN \(DotNetNuke\)'),
+            WIG_REGEXP2.format(r'DNN \(DotNetNuke\)'),
         ],
-        'fingerprinter': '-a dotnetnuke[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
+        'fingerprinter': r'-a dotnetnuke[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
     },
     'Domino': {
         'wappalyzer': 'Lotus Domino',
-        'banner': 'Lotus Domino(\s*(International|Go))?\s*httpd(\s*[VERSION])?',
+        'banner': r'Lotus Domino(\s*(International|Go))?\s*httpd(\s*[VERSION])?',
         'wig': [
             WIG_REGEXP3.format('Lotus Domino'),
             WIG_REGEXP4.format('Lotus Domino'),
         ],
-        'domiowned': 'Domino version:\s*[VERSION]',
+        'domiowned': r'Domino version:\s*[VERSION]',
     },
     'Drupal': {
         'wappalyzer': 'Drupal',
@@ -226,7 +226,7 @@ products_match['http']['web-cms'] = {
             WIG_REGEXP2.format('Drupal'),
         ],
         'drupwn': 'Version detected: [VERSION]',
-        'fingerprinter': '-a drupal[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
+        'fingerprinter': r'-a drupal[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
         'cmsmap': 'Drupal Version: [VERSION]',
         # Droopescan sample:
         # [+] Possible version(s):
@@ -298,7 +298,7 @@ products_match['http']['web-cms'] = {
     },
     'Invision Power Board': {
         'wappalyzer': 'IPB',
-        'cmseek': CMSEEK_REGEXP.format('IP\.Board community forum'),
+        'cmseek': CMSEEK_REGEXP.format(r'IP\.Board community forum'),
     },
     'Jalios Jcms': {
         'wappalyzer': 'Jalios',
@@ -313,14 +313,14 @@ products_match['http']['web-cms'] = {
     },
     'Joomla': {
         'wappalyzer': 'Joomla',
-        'cmseek': '"cms_name":\s*"Joomla"(,[\s\S]*"joomla_version":\s*"[VERSION]")?',
+        'cmseek': r'"cms_name":\s*"Joomla"(,[\s\S]*"joomla_version":\s*"[VERSION]")?',
         'wig': [
-            WIG_REGEXP.format('Joomla\!'),
-            WIG_REGEXP2.format('Joomla\!'),
+            WIG_REGEXP.format(r'Joomla\!'),
+            WIG_REGEXP2.format(r'Joomla\!'),
         ],
-        'fingerprinter': '-a joomla[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
+        'fingerprinter': r'-a joomla[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
         'cmsmap': 'Joomla Version: [VERSION]',
-        'joomscan': '\[\+\] Detecting Joomla Version\s*\n\s*\[\+\+\] Joomla [VERSION]',
+        'joomscan': r'\[\+\] Detecting Joomla Version\s*\n\s*\[\+\+\] Joomla [VERSION]',
         'joomlavs': 'Joomla version [VERSION] identified',
     },
     'Koken': {
@@ -337,8 +337,8 @@ products_match['http']['web-cms'] = {
     },
     'Liferay': {
         'wappalyzer': 'Liferay',
-        'fingerprinter': '-a liferay[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
-        'liferayscan': '\+ Version: Liferay .* [VERSION]',
+        'fingerprinter': r'-a liferay[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
+        'liferayscan': r'\+ Version: Liferay .* [VERSION]',
     },
     'Livejournal': {
         'wappalyzer': 'LiveJournal',
@@ -355,8 +355,8 @@ products_match['http']['web-cms'] = {
             WIG_REGEXP.format('Magento( (Community|Enterprise) Edition)?'),
             WIG_REGEXP2.format('Magento( (Community|Enterprise) Edition)?'),
         ],
-        'fingerprinter': '-a magento[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
-        'magescan': 'Version\s+\|\s*[VERSION]',
+        'fingerprinter': r'-a magento[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
+        'magescan': r'Version\s+\|\s*[VERSION]',
     },
     'Majordomo': {
         'wig': [
@@ -396,7 +396,7 @@ products_match['http']['web-cms'] = {
             WIG_REGEXP.format('Moodle'),
             WIG_REGEXP2.format('Moodle'),
         ],
-        'fingerprinter': '-a moodle[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
+        'fingerprinter': r'-a moodle[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
     },
     'Moto Cms': {
         'wappalyzer': 'MotoCMS',
@@ -440,7 +440,7 @@ products_match['http']['web-cms'] = {
     'Opencart': {
         'wappalyzer': 'OpenCart',
         'cmseek': CMSEEK_REGEXP.format('OpenCart'),
-        'fingerprinter': '-a opencart[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
+        'fingerprinter': r'-a opencart[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
     },
     'Opencms': {
         'wappalyzer': 'OpenCms',
@@ -521,12 +521,12 @@ products_match['http']['web-cms'] = {
             WIG_REGEXP.format('PrestaShop'),
             WIG_REGEXP2.format('PrestaShop'),
         ],
-        'fingerprinter': '-a prestashop[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
+        'fingerprinter': r'-a prestashop[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
     },
     'Punbb': {
         'wappalyzer': 'punBB',
         'cmseek': CMSEEK_REGEXP.format('PunBB'),
-        'fingerprinter': '-a punbb[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
+        'fingerprinter': r'-a punbb[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
     },
     'Quick.cms': {
         'wappalyzer': 'Quick.CMS',
@@ -685,12 +685,12 @@ products_match['http']['web-cms'] = {
     },
     'Wordpress': {
         'wappalyzer': 'WordPress',
-        'cmseek': '"cms_name":\s*"WordPress"(,[\s\S]*"wp_version":\s*"[VERSION]")?',
+        'cmseek': r'"cms_name":\s*"WordPress"(,[\s\S]*"wp_version":\s*"[VERSION]")?',
         'wig': [
             WIG_REGEXP.format('WordPress'),
             WIG_REGEXP2.format('WordPress'),
         ],
-        'fingerprinter': '-a wordpress[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
+        'fingerprinter': r'-a wordpress[\s\S]*Intersection of potential versions returned only one version v[VERSION]',
         'cmsmap': 'Wordpress Version: [VERSION]',
         'wpscan': 'WordPress version [VERSION] identified',
     },
@@ -712,13 +712,13 @@ products_match['http']['web-cms'] = {
     },
     'Yabb': {
         'wappalyzer': 'YaBB',
-        'cmseek': CMSEEK_REGEXP.format('YaBB \(Yet another Bulletin Board\)'),
+        'cmseek': CMSEEK_REGEXP.format(r'YaBB \(Yet another Bulletin Board\)'),
     },
     'Yazd Discussion Forum': {
         'cmseek': CMSEEK_REGEXP.format('Yazd'),
     },
     'Yet Another Forum.net': {
-        'cmseek': CMSEEK_REGEXP.format('Yet Another Forum \(YAF\)'),
+        'cmseek': CMSEEK_REGEXP.format(r'Yet Another Forum \(YAF\)'),
     },
     'Zen Cart': {
         'wappalyzer': 'Zen Cart',

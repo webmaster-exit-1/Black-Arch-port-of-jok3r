@@ -6,7 +6,7 @@ from lib.smartmodules.matchstrings.MatchStrings import creds_match
 creds_match['snmp'] = {
 
     'metasploit': {
-        'Login Successful: (?P<m1>\S+)': {
+        r'Login Successful: (?P<m1>\S+)': {
             'user': '',
             'pass': '$1',
         },

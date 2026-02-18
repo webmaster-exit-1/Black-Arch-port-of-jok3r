@@ -6,6 +6,7 @@
 import os
 import subprocess
 import sys
+from datetime import datetime
 
 from lib.utils.FileUtils import FileUtils
 from lib.utils.CLIUtils import CLIUtils
@@ -268,6 +269,26 @@ class Tool:
     #------------------------------------------------------------------------------------
     # Run Install/Update
 
+    def __log_to_install_file(self, message, mode='install'):
+        """
+        Log installation/update messages to settings/_install.log
+        
+        :param str message: Message to log
+        :param str mode: Mode (install/update)
+        """
+        try:
+            log_file = os.path.join(SETTINGS_DIR, '_install.log')
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            with open(log_file, 'a') as f:
+                f.write('[{timestamp}] [{mode}] [{tool}] {message}\n'.format(
+                    timestamp=timestamp,
+                    mode=mode.upper(),
+                    tool=self.name,
+                    message=message))
+        except Exception as e:
+            # Don't fail if logging fails
+            logger.debug('Failed to write to install log: {}'.format(e))
+
     def __run_install_update(self, fast_mode, update=False):
         """
         Run install or update command.
@@ -283,6 +304,8 @@ class Tool:
         mode = 'update' if update else 'install'
 
         logger.info('Description: {descr}'.format(descr=self.description))
+        self.__log_to_install_file('Starting {mode} - {desc}'.format(
+            mode=mode, desc=self.description), mode)
         #Output.print('{mode} command : {cmd}'.format(
         #   mode=mode.capitalize(), cmd=cmd_short))
 
@@ -290,17 +313,22 @@ class Tool:
            or Output.prompt_confirm('Confirm {mode} ?'.format(mode=mode), default=True):
 
             Output.begin_cmd(cmd)
+            self.__log_to_install_file('Executing command: {cmd}'.format(cmd=cmd), mode)
             returncode, _ = ProcessLauncher(cmd).start()
             Output.delimiter()
             if returncode != 0:
                 logger.warning('Tool {mode} has finished with an error ' \
                     'exit code: {code}'.format(mode=mode, code=returncode))
+                self.__log_to_install_file('FAILED with exit code {code}'.format(
+                    code=returncode), mode)
             else:
                 logger.success('Tool {mode} has finished with success exit code'.format(
                     mode=mode))
+                self.__log_to_install_file('SUCCESS - completed with exit code 0', mode)
             return True
         else:
             logger.warning('Tool {mode} aborted'.format(mode=mode))
+            self.__log_to_install_file('ABORTED by user', mode)
             return False
 
 

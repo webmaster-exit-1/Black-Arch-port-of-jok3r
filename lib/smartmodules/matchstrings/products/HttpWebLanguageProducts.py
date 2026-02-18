@@ -2,16 +2,16 @@
 # -*- coding: utf-8 -*-
 from lib.smartmodules.matchstrings.MatchStrings import products_match
 
-WIG_REGEXP = '{}\s*[VERSION]\s*Platform' 
-WIG_REGEXP2 = '- Found platform {}(\s*[VERSION])?'
+WIG_REGEXP = r'{}\s*[VERSION]\s*Platform' 
+WIG_REGEXP2 = r'- Found platform {}(\s*[VERSION])?'
 
 
 products_match['http']['web-language'] = {
     'Microsoft/ASP.NET': {
         'wappalyzer': 'Microsoft ASP.NET',
         'wig': [
-            WIG_REGEXP.format('ASP\.NET'),
-            WIG_REGEXP2.format('ASP\.NET'),
+            WIG_REGEXP.format(r'ASP\.NET'),
+            WIG_REGEXP2.format(r'ASP\.NET'),
         ],
     },
     'CFML': {
