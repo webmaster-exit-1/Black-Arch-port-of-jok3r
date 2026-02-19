@@ -245,8 +245,7 @@ for package in $PACKAGES; do
     fi
 done
 
-pip3 install --upgrade pip
-pip3 install shodan
+pip3 install --break-system-packages --upgrade pip shodan
 if [ -x "$(command -v python3)" ]; then
     print_green "[+] Python3 installed successfully"
 else
@@ -266,7 +265,7 @@ print_delimiter
 
 if ! [ -x "$(command -v virtualenv)" ]; then
     print_blue "[~] Install python virtual environment packages"
-    pip3 install virtualenv
+    pip3 install --break-system-packages virtualenv
     if [ -x "$(command -v virtualenv)" ]; then
         print_green "[+] virtualenv installed successfully"
     else
@@ -404,7 +403,7 @@ for lib in $LIBPY3; do
     if [[ ! $(echo $PIP3FREEZE | grep -i $lib) ]]; then
         echo
         print_blue "[~] Install Python library ${lib} (py3)"
-        pip3 install $lib
+        pip3 install --break-system-packages $lib
     fi
 done
 
@@ -577,8 +576,8 @@ print_delimiter
 # -----------------------------------------------------------------------------
 
 print_blue "[~] Install Python3 libraries required by Jok3r (if missing)"
-pip3 install -r requirements.txt
-pip3 install --upgrade requests
+pip3 install --break-system-packages -r requirements.txt
+pip3 install --break-system-packages --upgrade requests
 print_delimiter
 
 # -----------------------------------------------------------------------------
@@ -586,7 +585,7 @@ print_delimiter
 print_blue "[~] Disable UserWarning related to psycopg2"
 pip3 uninstall psycopg2-binary -y
 pip3 uninstall psycopg2 -y
-pip3 install psycopg2-binary
+pip3 install --break-system-packages psycopg2-binary
 print_delimiter
 
 # -----------------------------------------------------------------------------
