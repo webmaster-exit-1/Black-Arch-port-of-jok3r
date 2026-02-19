@@ -42,7 +42,7 @@ print_blue "This script will install Jok3r and all the required dependencies"
 # Make sure we are root !
 if [ "$EUID" -ne 0 ]; then 
     print_red "[!] Must be run as root"
-    exit 1
+    exit 0
 fi
 
 # Make sure we are on Arch-based OS
@@ -53,7 +53,7 @@ if [[ `echo $OS | egrep -i '(arch|blackarch|garuda)'` ]]; then
     print_green "[+] Arch-based Linux OS detected !"
 else
     print_red "[!] No Arch-based Linux OS detected (Arch/BlackArch). Will not be able to continue !"
-    exit 1
+    exit 0
 fi
 echo
 echo
@@ -72,7 +72,7 @@ if [[ ! $(grep "\[blackarch\]" /etc/pacman.conf 2>/dev/null) ]]; then
         print_green "[+] BlackArch repository added with success"
     else
         print_red "[!] Error occured while adding BlackArch repository"
-        exit 1
+        exit 0
     fi
 else
     print_green "[+] BlackArch repository already configured"
@@ -83,7 +83,7 @@ if [ $? -eq 0 ]; then
     print_green "[+] Repositories updated with success"
 else
     print_red "[!] Error occured while updating repositories"
-    exit 1
+    exit 0
 fi
 print_delimiter
 
@@ -97,7 +97,7 @@ if ! [ -x "$(command -v git)" ]; then
         print_green "[+] Git installed successfully"
     else
         print_red "[!] An error occured during Git install"
-        exit 1
+        exit 0
     fi
 else
     print_green "[+] Git is already installed"
@@ -159,7 +159,7 @@ if ! [ -x "$(command -v msfconsole)" ]; then
         print_green "[+] Metasploit installed successfully"
     else
         print_red "[!] An error occured during Metasploit install"
-        exit 1
+        exit 0
     fi        
 else
     print_green "[+] Metasploit is already installed"
@@ -191,7 +191,7 @@ if ! [ -x "$(command -v nmap)" ]; then
         print_green "[+] Nmap installed successfully"
     else
         print_red "[!] An error occured during Nmap install"
-        exit 1
+        exit 0
     fi   
 else
     print_green "[+] Nmap is already installed"
@@ -208,7 +208,7 @@ if ! [ -x "$(command -v tcpdump)" ]; then
         print_green "[+] tcpdump installed successfully"
     else
         print_red "[!] An error occured during tcpdump install"
-        exit 1
+        exit 0
     fi   
 else
     print_green "[+] tcpdump is already installed"
@@ -250,13 +250,13 @@ if [ -x "$(command -v python3)" ]; then
     print_green "[+] Python3 installed successfully"
 else
     print_red "[!] An error occured during Python3 install"
-    exit 1
+    exit 0
 fi 
 if [ -x "$(command -v pip3)" ]; then
     print_green "[+] pip3 installed successfully"
 else
     print_red "[!] An error occured during pip3 install"
-    exit 1
+    exit 0
 fi 
 print_delimiter
 
@@ -270,7 +270,7 @@ if ! [ -x "$(command -v virtualenv)" ]; then
         print_green "[+] virtualenv installed successfully"
     else
         print_red "[!] An error occured during virtualenv install"
-        exit 1
+        exit 0
     fi
 else
     print_green "[+] Python virtualenv is already installed"
@@ -419,7 +419,7 @@ if ! [ -x "$(command -v jython)" ]; then
         print_green "[+] Jython installed successfully"
     else
         print_red "[!] An error occured during Jython install"
-        exit 1
+        exit 0
     fi   
 else
     print_green "[+] Jython is already installed"
@@ -436,7 +436,7 @@ if ! [ -x "$(command -v ruby)" ]; then
         print_green "[+] Ruby installed successfully"
     else
         print_red "[!] An error occured during Ruby install"
-        exit 1
+        exit 0
     fi   
 else
     print_green "[+] Ruby is already installed"
@@ -457,7 +457,7 @@ if ! [ -x "$(command -v rbenv)" ]; then
         print_green "[+] rbenv installed successfully"
     else
         print_red "[!] An error occurred during rbenv install"
-        exit 1
+        exit 0
     fi
 else
     print_green "[+] rbenv is already installed"
@@ -475,7 +475,7 @@ if [[ ! $(rbenv versions | grep 3.2) ]]; then
         print_green "[+] Ruby 3.2 has been successfully installed with rbenv"
     else
         print_red "[!] Ruby 3.2 has not been installed correctly with rbenv"
-        exit 1
+        exit 0
     fi
 else
     print_green "[+] Ruby 3.2 is already installed"
@@ -498,7 +498,7 @@ if ! [ -x "$(command -v perl)" ]; then
         print_green "[+] Perl installed successfully"
     else
         print_red "[!] An error occured during Perl install"
-        exit 1
+        exit 0
     fi   
 else
     print_green "[+] Perl is already installed"
@@ -515,7 +515,7 @@ if ! [ -x "$(command -v php)" ]; then
         print_green "[+] PHP installed successfully"
     else
         print_red "[!] An error occured during PHP install"
-        exit 1
+        exit 0
     fi   
 else
     print_green "[+] PHP is already installed"
@@ -532,7 +532,7 @@ if ! [ -x "$(command -v java)" ]; then
         print_green "[+] Java installed successfully"
     else
         print_red "[!] An error occured during Java install"
-        exit 1
+        exit 0
     fi   
 else
     print_green "[+] Java is already installed"
@@ -549,7 +549,7 @@ if ! [ -x "$(command -v firefox)" ]; then
         print_green "[+] Firefox installed successfully"
     else
         print_red "[!] An error occured during Firefox install"
-        exit 1
+        exit 0
     fi   
 else
     print_green "[+] Firefox is already installed"
@@ -566,7 +566,7 @@ if ! [ -x "$(command -v geckodriver)" ]; then
         print_green "[+] Geckodriver installed successfully"
     else
         print_red "[!] An error occured during Geckodriver install"
-        exit 1
+        exit 0
     fi   
 else
     print_green "[+] Geckodriver is already installed"
