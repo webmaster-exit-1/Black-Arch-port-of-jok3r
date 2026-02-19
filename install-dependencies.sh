@@ -49,7 +49,7 @@ fi
 OS=`(lsb_release -sd || grep NAME /etc/*-release) 2> /dev/null`
 print_blue "[~] Detected OS:"
 echo $OS
-if [[ `echo $OS | egrep -i '(arch|blackarch)'` ]]; then
+if [[ `echo $OS | egrep -i '(arch|blackarch|garuda)'` ]]; then
     print_green "[+] Arch-based Linux OS detected !"
 else
     print_red "[!] No Arch-based Linux OS detected (Arch/BlackArch). Will not be able to continue !"
